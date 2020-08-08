@@ -8,28 +8,40 @@
 // UDT = User Defined Types
 // struct { <fields> }
 
-typedef struct TGameData
+struct GameData
 {
     bool _user_board[7][7]{false};
     bool _computer_board[7][7]{false};
-} GameData;
+};
 
 int count_user_ships(GameData &data)
 {
     auto result{0};
     for (auto i{0}; i < 7; ++i)
+    {
         for (auto j{0}; j < 7; ++j)
         {
             if (data._user_board[i][j])
+            {
                 ++result;
+            }
         }
+    }
+    data._user_board[6][6] = true;
     return result;
+}
+
+int add(int const &a, int const &b)
+{
+    int c{a};
+    c += b;
+    return c;
 }
 
 int main()
 {
-    GameData game;
-    game._user_board[3][5] = true;
-    game._user_board[3][3] = true;
-    std::cout << count_user_ships(game) << std::endl;
+    int i{3}, j{5};
+    std::cout << "the addition is " << add(i, j) << std::endl;
+    std::cout << "i is " << i << std::endl;
+    std::cout << "j is " << j << std::endl;
 }

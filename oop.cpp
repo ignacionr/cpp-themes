@@ -3,11 +3,13 @@
 // THEME: Object Oriented Programming
 // 1) The most important concepts, are objects/their classes
 // 2) classes are UDT, they add:
+// ENCAPSULATION
 //              a) behavior - methods
 //              b) constructor / destructors
 //                  because we want the class to be responsible of having a valid state all through its life
-//              c) access levels
+//              c) access levels (adding modifiers private/protected/public)
 //              d) operator overloading
+
 //              e) virtual methods
 //              f) inheritance
 
@@ -29,7 +31,6 @@ struct GameData
     // Destructor has the opportunity of freeing resources or doing things when the object goes out of scope
     ~GameData()
     {
-        std::cout << "This game has ended!" << std::endl;
     }
 
     // behavior - methods
@@ -46,11 +47,13 @@ struct GameData
     }
 
     void set_user_ship_at(int i, int j)
+    // side-effects: things that modify the values that we're passed-in
     {
         if (count_user_ships() < TOTAL_SHIPS)
         {
             _user_board[i][j] = true;
         }
+        i = j * 5;
     }
 
 private:
@@ -58,19 +61,27 @@ private:
     bool _computer_board[7][7];
 };
 
+// <return type> <name> <parameter list>
+// bool operator==(GameData const &a, GameData const &b)
+// {
+//     auto result{true};
+//     for (int i{0}; i < 7 && result; ++i)
+//     {
+//         for (int j{0}; j < 7 && result; ++j)
+//         {
+//             result = a._user_board[i][j] == b._user_board[i][j] &&
+//                      a._computer_board[i][j] == b._computer_board[i][j];
+//         }
+//     }
+//     return result;
+// }
+
 int main()
 {
-    {
-        GameData game;
 
-        game.set_user_ship_at(3, 5);
-        game.set_user_ship_at(3, 3);
-        game.set_user_ship_at(3, 1);
-        game.set_user_ship_at(2, 3);
-        game.set_user_ship_at(2, 1);
-        game.set_user_ship_at(2, 2); // will be ignored
+    int a{2}, b{3};
 
-        std::cout << game.count_user_ships() << std::endl;
-    }
-    std::cout << "The program is ending..." << std::endl;
+    GameData g1;
+    g1.set_user_ship_at(a, b);
+    std::cout << "the value of a is " << a << ", the value of b is " << b << std::endl;
 }
