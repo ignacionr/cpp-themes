@@ -53,7 +53,13 @@ struct GameData
         {
             _user_board[i][j] = true;
         }
-        i = j * 5;
+    }
+
+    bool operator()(bool userBoard, int i, int j) const
+    {
+        if (userBoard)
+            return _user_board[i][j];
+        return _computer_board[i][j];
     }
 
 private:
@@ -61,27 +67,43 @@ private:
     bool _computer_board[7][7];
 };
 
-// <return type> <name> <parameter list>
-// bool operator==(GameData const &a, GameData const &b)
-// {
-//     auto result{true};
-//     for (int i{0}; i < 7 && result; ++i)
-//     {
-//         for (int j{0}; j < 7 && result; ++j)
-//         {
-//             result = a._user_board[i][j] == b._user_board[i][j] &&
-//                      a._computer_board[i][j] == b._computer_board[i][j];
-//         }
-//     }
-//     return result;
-// }
+bool operator==(GameData const &a, GameData const &b)
+{
+    auto result{true};
+    for (int i{0}; i < 7 && result; ++i)
+    {
+        for (int j{0}; j < 7 && result; ++j)
+        {
+            result = a(true, i, j) == b(true, i, j) &&
+                     a(false, i, j) == b(false, i, j);
+        }
+    }
+    return result;
+}
 
 int main()
 {
-
-    int a{2}, b{3};
-
-    GameData g1;
-    g1.set_user_ship_at(a, b);
-    std::cout << "the value of a is " << a << ", the value of b is " << b << std::endl;
+    GameData g1, g2;
+    g1.set_user_ship_at(1, 1);
+    g1.set_user_ship_at(1, 1);
+    g1.set_user_ship_at(2, 1);
+    g1.set_user_ship_at(2, 2);
+    g1.set_user_ship_at(2, 3);
+    g1.set_user_ship_at(2, 4);
+    g1.set_user_ship_at(3, 1);
+    g1.set_user_ship_at(3, 2);
+    g1.set_user_ship_at(3, 3);
+    g1.set_user_ship_at(4, 1);
+    std::cout << "the user has " << g1.count_user_ships() << " ships." << std::endl;
+    g2.set_user_ship_at(1, 1);
+    g2.set_user_ship_at(1, 1);
+    // g2.set_user_ship_at(2, 1);
+    g2.set_user_ship_at(2, 2);
+    g2.set_user_ship_at(2, 3);
+    g2.set_user_ship_at(2, 4);
+    g2.set_user_ship_at(3, 1);
+    g2.set_user_ship_at(3, 2);
+    g2.set_user_ship_at(3, 3);
+    g2.set_user_ship_at(4, 1);
+    std::cout << "g2 " << (g1 == g2 ? "is" : "is not") << " equal to g1." << std::endl;
 }

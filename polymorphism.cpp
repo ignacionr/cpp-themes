@@ -16,11 +16,10 @@ public:
 
 class Circle : public Shape
 {
-    Point _center;
     double _radius;
 
 public:
-    Circle(Point const &center, double radius) : _center{center}, _radius{radius} {}
+    Circle(double radius) : _radius{radius} {}
     double area() const override { return pi * _radius * _radius; }
 };
 
@@ -34,12 +33,21 @@ public:
                                           std::abs(_corners[1].y - _corners[0].y); }
 };
 
+void show_area(Shape const *pShape)
+{
+    std::cout << "Area: " << pShape->area() << std::endl;
+}
+
 int main()
 {
-    Circle c({10, 10}, 10);
-    std::cout << "Circle area: " << c.area() << std::endl;
+    Circle c(10);
+
     Rectangle r({10, 10}, {30, 30});
-    std::cout << "Rectangle area: " << r.area() << std::endl;
+
+    std::cout << "Circle area: ";
+    show_area(&c);
+    std::cout << "Rectangle area: ";
+    show_area(&r);
 
     return 0;
 }
